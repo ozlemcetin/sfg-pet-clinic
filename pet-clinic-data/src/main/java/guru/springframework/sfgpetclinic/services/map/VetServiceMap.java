@@ -5,10 +5,7 @@ import guru.springframework.sfgpetclinic.services.VetService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VetServiceMap extends AbstractMapService<Vet, Long> implements VetService {
+public class VetServiceMap extends CrudMapService<Vet, Long> implements VetService {
 
-    @Override
-    public Vet save(Vet object) {
-        return super.save(object.getId(), object);
-    }
+
 }

@@ -8,13 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements OwnerService {
-
-
-    @Override
-    public Owner save(Owner object) {
-        return super.save(object.getId(), object);
-    }
+public class OwnerServiceMap extends CrudMapService<Owner, Long> implements OwnerService {
 
 
     @Override

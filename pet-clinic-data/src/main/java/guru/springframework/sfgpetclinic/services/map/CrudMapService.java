@@ -17,7 +17,6 @@ public abstract class CrudMapService<T extends BaseEntity, ID extends Long> impl
         return map.get(id);
     }
 
-
     public T save(T object) {
 
         if (object != null) {

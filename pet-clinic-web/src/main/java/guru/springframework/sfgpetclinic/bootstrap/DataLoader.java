@@ -1,8 +1,10 @@
 package guru.springframework.sfgpetclinic.bootstrap;
 
 import guru.springframework.sfgpetclinic.model.Owner;
+import guru.springframework.sfgpetclinic.model.PetType;
 import guru.springframework.sfgpetclinic.model.Vet;
 import guru.springframework.sfgpetclinic.services.OwnerService;
+import guru.springframework.sfgpetclinic.services.PetTypeService;
 import guru.springframework.sfgpetclinic.services.VetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -13,15 +15,45 @@ public class DataLoader implements CommandLineRunner {
 
     private final OwnerService ownerService;
     private final VetService vetService;
+    private final PetTypeService petTypeService;
 
     @Autowired
-    public DataLoader(OwnerService ownerService, VetService vetService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
+        this.petTypeService = petTypeService;
     }
 
     @Override
     public void run(String... args) throws Exception {
+
+        PetType savedDogPetType = null;
+        {
+            PetType dog = new PetType();
+            dog.setName("Dog");
+
+            savedDogPetType = petTypeService.save(dog);
+        }
+
+        PetType savedCatPetType = null;
+        {
+            PetType cat = new PetType();
+            cat.setName("Cat");
+
+            savedCatPetType = petTypeService.save(cat);
+        }
+
+        PetType savedBirdPetType = null;
+        {
+            PetType bird = new PetType();
+            bird.setName("Bird");
+
+            savedBirdPetType = petTypeService.save(bird);
+        }
+
+        System.out.println("Pet Types Loaded.");
+        System.out.println("Number of Pet Types: " + petTypeService.findAll().size());
+
 
         {
             Owner owner1 = new Owner();
@@ -40,7 +72,17 @@ public class DataLoader implements CommandLineRunner {
             ownerService.save(owner2);
         }
 
+
+        {
+            Owner owner3 = new Owner();
+            owner3.setFirstName("Ozlem");
+            owner3.setLastName("Cetin");
+
+            ownerService.save(owner3);
+        }
+
         System.out.println("Owners Loaded.");
+        System.out.println("Number of Owners: " + ownerService.findAll().size());
 
         {
 
@@ -60,6 +102,7 @@ public class DataLoader implements CommandLineRunner {
         }
 
         System.out.println("Vets Loaded.");
+        System.out.println("Number of Vets: " + vetService.findAll().size());
 
 
     }

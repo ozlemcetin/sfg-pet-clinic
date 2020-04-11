@@ -20,6 +20,11 @@ public class OwnerServiceMap extends CrudMapService<Owner, Long> implements Owne
     }
 
     @Override
+    public Owner findByLastName(String lastName) {
+        return super.findAll().stream().filter(object -> object.getLastName().equals(lastName)).findAny().orElse(null);
+    }
+
+    @Override
     public Owner save(Owner object) {
 
         //Save Pets
@@ -50,8 +55,5 @@ public class OwnerServiceMap extends CrudMapService<Owner, Long> implements Owne
         return super.save(object);
     }
 
-    @Override
-    public Owner findByLastName(String lastName) {
-        return super.findAll().stream().filter(object -> object.getLastName().equals(lastName)).findAny().orElse(null);
-    }
+
 }

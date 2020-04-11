@@ -15,7 +15,6 @@ public class OwnerServiceSDJPA implements OwnerService {
 
     private final OwnerRepository ownerRepository;
 
-
     public OwnerServiceSDJPA(OwnerRepository ownerRepository) {
         this.ownerRepository = ownerRepository;
     }

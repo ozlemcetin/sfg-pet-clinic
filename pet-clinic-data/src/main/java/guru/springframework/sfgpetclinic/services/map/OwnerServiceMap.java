@@ -9,7 +9,7 @@ import guru.springframework.sfgpetclinic.services.PetTypeService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OwnerServiceMap extends CrudMapService<Owner, Long> implements OwnerService {
+public class OwnerServiceMap extends CrudServiceMap<Owner, Long> implements OwnerService {
 
     private final PetTypeService petTypeService;
     private final PetService petService;

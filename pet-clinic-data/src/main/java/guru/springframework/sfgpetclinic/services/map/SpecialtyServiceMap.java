@@ -5,7 +5,7 @@ import guru.springframework.sfgpetclinic.services.SpecialtyService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SpecialtyServiceMap extends CrudMapService<Speciality, Long> implements SpecialtyService {
+public class SpecialtyServiceMap extends CrudServiceMap<Speciality, Long> implements SpecialtyService {
 
 
     @Override

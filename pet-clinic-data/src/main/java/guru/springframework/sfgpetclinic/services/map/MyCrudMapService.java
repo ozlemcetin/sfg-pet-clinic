@@ -5,7 +5,7 @@ import guru.springframework.sfgpetclinic.services.CrudService;
 
 import java.util.*;
 
-public abstract class CrudServiceMap<T extends BaseEntity, ID extends Long> implements CrudService<T, ID> {
+public abstract class MyCrudMapService<T extends BaseEntity, ID extends Long> implements CrudService<T, ID> {
 
     protected Map<Long, T> map = new HashMap<>();
 

@@ -7,11 +7,11 @@ import guru.springframework.sfgpetclinic.services.VisitService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PetServiceMap extends CrudServiceMap<Pet, Long> implements PetService {
+public class PetMapService extends MyCrudMapService<Pet, Long> implements PetService {
 
     private final VisitService visitService;
 
-    public PetServiceMap(VisitService visitService) {
+    public PetMapService(VisitService visitService) {
         this.visitService = visitService;
     }
 

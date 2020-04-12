@@ -42,12 +42,19 @@ public class DataLoader implements CommandLineRunner {
 
         PetType dog = new PetType();
         dog.setName("Dog");
+        petTypeService.save(dog);
 
         PetType cat = new PetType();
         cat.setName("Cat");
+        petTypeService.save(cat);
 
         PetType bird = new PetType();
         bird.setName("Bird");
+        petTypeService.save(bird);
+
+
+        System.out.println("Pet Types Loaded.");
+        System.out.println("Number of Pet Types: " + petTypeService.findAll().size());
 
 
         {
@@ -198,8 +205,6 @@ public class DataLoader implements CommandLineRunner {
         System.out.println("Pets Loaded.");
         System.out.println("Number of Pets: " + petService.findAll().size());
 
-        System.out.println("Pet Types Loaded.");
-        System.out.println("Number of Pet Types: " + petTypeService.findAll().size());
 
         System.out.println("Visits Loaded.");
         System.out.println("Number of Visits: " + visitService.findAll().size());
@@ -207,9 +212,16 @@ public class DataLoader implements CommandLineRunner {
         {
             Speciality radiology = new Speciality();
             radiology.setDescription("Radiology");
-            Speciality savedRadiology = specialtyService.save(radiology);
-
+            radiology = specialtyService.save(radiology);
         }
+
+        Speciality surgery = new Speciality();
+        surgery.setDescription("Surgery");
+        surgery = specialtyService.save(surgery);
+
+        Speciality dentistry = new Speciality();
+        dentistry.setDescription("Dentistry");
+        dentistry = specialtyService.save(dentistry);
 
         System.out.println("Specialities Loaded.");
         System.out.println("Number of Specialities: " + specialtyService.findAll().size());
@@ -230,29 +242,14 @@ public class DataLoader implements CommandLineRunner {
             vet2.setFirstName("Jessie");
             vet2.setLastName("Porter");
 
-            {
-
-                Speciality surgery = new Speciality();
-                surgery.setDescription("Surgery");
-                vet2.getSpecialties().add(surgery);
-
-            }
-
-            {
-                Speciality dentistry = new Speciality();
-                dentistry.setDescription("Dentistry");
-                vet2.getSpecialties().add(dentistry);
-            }
-
+            vet2.getSpecialties().add(surgery);
+            vet2.getSpecialties().add(dentistry);
 
             vetService.save(vet2);
         }
 
         System.out.println("Vets Loaded.");
         System.out.println("Number of Vets: " + vetService.findAll().size());
-
-        System.out.println("Specialities Loaded.");
-        System.out.println("Number of Specialities: " + specialtyService.findAll().size());
 
     }
 }

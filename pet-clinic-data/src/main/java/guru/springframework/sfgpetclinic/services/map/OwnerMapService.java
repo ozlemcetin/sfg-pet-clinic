@@ -2,20 +2,19 @@ package guru.springframework.sfgpetclinic.services.map;
 
 import guru.springframework.sfgpetclinic.model.Owner;
 import guru.springframework.sfgpetclinic.model.Pet;
-import guru.springframework.sfgpetclinic.model.PetType;
 import guru.springframework.sfgpetclinic.services.OwnerService;
 import guru.springframework.sfgpetclinic.services.PetService;
-import guru.springframework.sfgpetclinic.services.PetTypeService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
+@Profile({"default", "map"})
 public class OwnerMapService extends MyCrudMapService<Owner, Long> implements OwnerService {
 
-    private final PetTypeService petTypeService;
+
     private final PetService petService;
 
-    public OwnerMapService(PetTypeService petTypeService, PetService petService) {
-        this.petTypeService = petTypeService;
+    public OwnerMapService(PetService petService) {
         this.petService = petService;
     }
 
@@ -30,16 +29,6 @@ public class OwnerMapService extends MyCrudMapService<Owner, Long> implements Ow
         //Save Pets
         if (object != null && object.getPets() != null) {
             object.getPets().forEach(pet -> {
-
-                if (pet.getPetType() == null) {
-                    throw new RuntimeException("To save an owner object, pet type is required and cannot be null.");
-                }
-
-                //Persist Pet Type
-                if (pet.getPetType().getId() == null) {
-                    PetType savedPetType = petTypeService.save(pet.getPetType());
-                    pet.getPetType().setId(savedPetType.getId());
-                }
 
                 //Persist Pet
                 if (pet.getId() == null) {

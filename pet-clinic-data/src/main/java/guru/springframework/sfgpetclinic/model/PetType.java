@@ -14,7 +14,7 @@ public class PetType extends BaseEntity {
     /*
      This is because there is no need for a type to navigate to all the pets of this type.
      */
-    //@OneToMany(mappedBy = "petType")
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "petType")
     //private Set<Pet> pets;
 
 

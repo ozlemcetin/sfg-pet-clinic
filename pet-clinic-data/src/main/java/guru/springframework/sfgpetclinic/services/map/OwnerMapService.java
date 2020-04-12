@@ -47,7 +47,6 @@ public class OwnerMapService extends MyCrudMapService<Owner, Long> implements Ow
                     pet.setId(savedPet.getId());
                 }
 
-
             });
         }
 

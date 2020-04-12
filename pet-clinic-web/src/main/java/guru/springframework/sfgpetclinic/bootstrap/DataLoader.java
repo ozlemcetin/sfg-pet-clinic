@@ -16,14 +16,18 @@ public class DataLoader implements CommandLineRunner {
     private final PetService petService;
     private final PetTypeService petTypeService;
     private final SpecialtyService specialtyService;
+    private final VisitService visitService;
 
     @Autowired
-    public DataLoader(OwnerService ownerService, VetService vetService, PetService petService, PetTypeService petTypeService, SpecialtyService specialtyService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetService petService,
+                      PetTypeService petTypeService, SpecialtyService specialtyService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petService = petService;
         this.petTypeService = petTypeService;
         this.specialtyService = specialtyService;
+
+        this.visitService = visitService;
     }
 
     @Override
@@ -35,6 +39,7 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void loadData() {
+
         PetType dog = new PetType();
         dog.setName("Dog");
 
@@ -60,6 +65,23 @@ public class DataLoader implements CommandLineRunner {
                 pet1.setPetType(dog);
                 pet1.setOwner(owner1);
                 pet1.setBirthDate(LocalDate.now());
+
+                {
+                    Visit visit = new Visit();
+                    visit.setDate(LocalDate.now());
+                    visit.setDescription("Sneezing");
+                    visit.setPet(pet1);
+                    pet1.getVisits().add(visit);
+                }
+
+                {
+                    Visit visit = new Visit();
+                    visit.setDate(LocalDate.now());
+                    visit.setDescription("Coughing");
+                    visit.setPet(pet1);
+                    pet1.getVisits().add(visit);
+                }
+
                 owner1.getPets().add(pet1);
             }
 
@@ -69,6 +91,15 @@ public class DataLoader implements CommandLineRunner {
                 pet2.setPetType(cat);
                 pet2.setOwner(owner1);
                 pet2.setBirthDate(LocalDate.now());
+
+                {
+                    Visit visit = new Visit();
+                    visit.setDate(LocalDate.now());
+                    visit.setDescription("Temperature");
+                    visit.setPet(pet2);
+                    pet2.getVisits().add(visit);
+                }
+
                 owner1.getPets().add(pet2);
             }
 
@@ -90,6 +121,23 @@ public class DataLoader implements CommandLineRunner {
                 pet1.setPetType(bird);
                 pet1.setOwner(owner2);
                 pet1.setBirthDate(LocalDate.now());
+
+                {
+                    Visit visit = new Visit();
+                    visit.setDate(LocalDate.now());
+                    visit.setDescription("Beak fractured");
+                    visit.setPet(pet1);
+                    pet1.getVisits().add(visit);
+                }
+
+                {
+                    Visit visit = new Visit();
+                    visit.setDate(LocalDate.now());
+                    visit.setDescription("Not drinking any water");
+                    visit.setPet(pet1);
+                    pet1.getVisits().add(visit);
+                }
+
                 owner2.getPets().add(pet1);
             }
 
@@ -111,6 +159,7 @@ public class DataLoader implements CommandLineRunner {
                 pet1.setPetType(dog);
                 pet1.setOwner(owner3);
                 pet1.setBirthDate(LocalDate.now());
+
                 owner3.getPets().add(pet1);
             }
 
@@ -120,6 +169,23 @@ public class DataLoader implements CommandLineRunner {
                 pet2.setPetType(dog);
                 pet2.setOwner(owner3);
                 pet2.setBirthDate(LocalDate.now());
+
+                {
+                    Visit visit = new Visit();
+                    visit.setDate(LocalDate.now());
+                    visit.setDescription("Depression");
+                    visit.setPet(pet2);
+                    pet2.getVisits().add(visit);
+                }
+
+                {
+                    Visit visit = new Visit();
+                    visit.setDate(LocalDate.now());
+                    visit.setDescription("Injured foot");
+                    visit.setPet(pet2);
+                    pet2.getVisits().add(visit);
+                }
+
                 owner3.getPets().add(pet2);
             }
 
@@ -132,9 +198,11 @@ public class DataLoader implements CommandLineRunner {
         System.out.println("Pets Loaded.");
         System.out.println("Number of Pets: " + petService.findAll().size());
 
-
         System.out.println("Pet Types Loaded.");
         System.out.println("Number of Pet Types: " + petTypeService.findAll().size());
+
+        System.out.println("Visits Loaded.");
+        System.out.println("Number of Visits: " + visitService.findAll().size());
 
         {
             Speciality radiology = new Speciality();

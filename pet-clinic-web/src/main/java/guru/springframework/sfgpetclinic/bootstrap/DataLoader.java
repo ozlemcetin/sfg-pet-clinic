@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -58,12 +59,23 @@ public class DataLoader implements CommandLineRunner {
 
 
         {
-            Owner owner1 = new Owner();
-            owner1.setFirstName("Michael");
-            owner1.setLastName("Weston");
-            owner1.setAddress("191-103 Integer Rd. Corona New Mexico 08219");
-            owner1.setCity("New Mexico");
-            owner1.setTelephone("(404) 960-3807");
+
+            //Owner owner1 = new Owner();
+            //owner1.setFirstName("Michael");
+            //owner1.setLastName("Weston");
+            //owner1.setAddress("191-103 Integer Rd. Corona New Mexico 08219");
+            //owner1.setCity("New Mexico");
+            //owner1.setTelephone("(404) 960-3807");
+
+            //Lombok
+            Owner owner1 = Owner.builder()
+                    .firstName("Michael")
+                    .lastName("Weston")
+                    .address("191-103 Integer Rd. Corona New Mexico 08219")
+                    .city("New Mexico")
+                    .telephone("(404) 960-3807")
+                    .pets(new HashSet<>())
+                    .build();
 
 
             {

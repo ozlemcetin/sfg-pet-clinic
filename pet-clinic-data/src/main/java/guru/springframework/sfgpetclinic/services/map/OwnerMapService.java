@@ -20,7 +20,9 @@ public class OwnerMapService extends MyCrudMapService<Owner, Long> implements Ow
 
     @Override
     public Owner findByLastName(String lastName) {
-        return super.findAll().stream().filter(object -> object.getLastName().equals(lastName)).findAny().orElse(null);
+        return super.findAll().stream()
+                .filter(object -> object.getLastName().equalsIgnoreCase(lastName))
+                .findFirst().orElse(null);
     }
 
     @Override

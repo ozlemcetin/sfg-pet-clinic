@@ -22,24 +22,31 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class OwnerControllerTest {
 
-    @Mock
-    OwnerService ownerService;
-
     @InjectMocks
     OwnerController ownerController;
 
+    @Mock
+    OwnerService ownerService;
+
     MockMvc mockMvc;
-    Set<Owner> owners;
 
     @BeforeEach
     void setUp() {
 
+        //mockMvc
         mockMvc = MockMvcBuilders
                 .standaloneSetup(ownerController)
                 .build();
 
-        owners = new HashSet<>();
+    }
+
+    @Test
+    void listOwners() throws Exception {
+
+        //given
         {
+            Set<Owner> owners = new HashSet<>();
+
             //Lombok
             Owner owner1 = Owner.builder()
                     .id(1L)
@@ -50,22 +57,23 @@ class OwnerControllerTest {
                     .telephone("(404) 960-3807")
                     .pets(new HashSet<>())
                     .build();
-
             owners.add(owner1);
-        }
-    }
 
-    @Test
-    void listOwners() throws Exception {
-        {
+            Owner owner2 = Owner.builder().id(2L).build();
+            owners.add(owner2);
+
             when(ownerService.findAll()).thenReturn(owners);
         }
 
+        //when
         mockMvc.perform(MockMvcRequestBuilders.get("/owners"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("owners/index"))
-                .andExpect(MockMvcResultMatchers.model().attribute("owners", Matchers.hasSize(1)));
+                .andExpect(MockMvcResultMatchers.model().attributeExists("owners"))
+                .andExpect(MockMvcResultMatchers.model().attribute("owners",
+                        Matchers.hasSize(2)));
 
+        //verify
         verify(ownerService).findAll();
     }
 
@@ -73,10 +81,35 @@ class OwnerControllerTest {
     @Test
     void findOwner() throws Exception {
 
+        //when
         mockMvc.perform(MockMvcRequestBuilders.get("/owners/find"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("notImplemented"));
 
+        //verify
         verifyNoInteractions(ownerService);
+    }
+
+    @Test
+    void showOwner() throws Exception {
+
+        //given
+        Long ownerId = 2L;
+        {
+            Owner owner = Owner.builder().id(ownerId).build();
+            when(ownerService.findById(anyLong())).thenReturn(owner);
+        }
+
+        //when
+        mockMvc.perform(MockMvcRequestBuilders.get("/owners/" + ownerId))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("owners/ownerDetails"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("owner"))
+                .andExpect(MockMvcResultMatchers.model().attribute("owner",
+                        Matchers.hasProperty("id",
+                                Matchers.is(ownerId))));
+
+        //verify
+        verify(ownerService).findById(anyLong());
     }
 }

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+
+<body>
+<!--/*@thymesVar id="owner" type="guru.springframework.sfgpetclinic.model.Owner"*/-->
+
+<h2>Owner Information</h2>
+
+<table class="table table-striped" th:object="${owner}">
+
+    <tr>
+        <th>Name</th>
+        <td><b th:text="*{firstName + ' ' + lastName}">Owner First Name Last Name</b></td>
+    </tr>
+
+    <tr>
+        <th>Address</th>
+        <td th:text="*{address}">
+            Address Information
+        </td>
+    </tr>
+
+    <tr>
+        <th>City</th>
+        <td th:text="*{city}">
+            City
+        </td>
+    </tr>
+
+    <tr>
+        <th>Telephone</th>
+        <td th:text="*{telephone}">
+            Telephone
+        </td>
+    </tr>
+
+</table>
+
+<br/>
+<a class="btn btn-default" href="#" role="button"
+   th:href="@{{id}/edit(id=${owner.id})}">Edit
+    Owner</a>
+
+<a class="btn btn-default" href="#" role="button"
+   th:href="@{{id}/pets/new(id=${owner.id})}">Add
+    New Pet</a>
+
+<br/>
+<br/>
+<br/>
+<h2>Pets and Visits</h2>
+
+<table class="table table-striped">
+
+    <tr th:each="pet : ${owner.pets}">
+
+        <td class="align-top">
+            <dl class="dl-horizontal">
+
+                <dt>Name</dt>
+                <dd th:text="${pet.name}">
+                    Pet Name
+                </dd>
+
+                <dt>Birth Date</dt>
+                <dd th:text="${#temporals.format(pet.birthDate, 'yyyy-MM-dd')}">
+                    Pet Birth Date
+                </dd>
+
+                <dt>Type</dt>
+                <dd th:text="${pet.petType}">
+                    Pet Type
+                </dd>
+            </dl>
+        </td>
+
+        <td class="align-top">
+            <table class="table-condensed">
+
+                <thead>
+                <tr>
+                    <th>Visit Date</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="visit : ${pet.visits}">
+                    <td th:text="${#temporals.format(visit.date, 'yyyy-MM-dd')}">
+                        Visit Date
+                    </td>
+                    <td th:text="${visit?.description}">
+                        Visit Description
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><a class="btn btn-default" href="#" role="button"
+                           th:href="@{{ownerId}/pets/{petId}/edit(ownerId=${owner.id},petId=${pet.id})}">
+                        Edit Pet</a>
+                    </td>
+
+                    <td><a class="btn btn-default" href="#" role="button"
+                           th:href="@{{ownerId}/pets/{petId}/visits/new(ownerId=${owner.id},petId=${pet.id})}">
+                        Add Visit</a>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+</body>
+
+</html>

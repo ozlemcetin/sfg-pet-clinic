@@ -1,9 +1,6 @@
 package guru.springframework.sfgpetclinic.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,6 +23,15 @@ public class PetType extends BaseEntity {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "petType")
     //private Set<Pet> pets;
 
+    /*
+    Constructor
+     */
+
+    @Builder
+    public PetType(Long id, String name) {
+        super(id);
+        this.name = name;
+    }
 
     /*
      Getters and Setters

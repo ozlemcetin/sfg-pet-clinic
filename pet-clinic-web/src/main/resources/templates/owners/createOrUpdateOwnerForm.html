@@ -5,7 +5,11 @@
 <body>
 <!--/*@thymesVar id="owner" type="guru.springframework.sfgpetclinic.model.Owner"*/-->
 
-<h2>Owner</h2>
+<!--isNew Property on the Base Entity-->
+<h2>
+    <th:block th:if="${owner['new']}">New</th:block>
+    Owner
+</h2>
 
 <!--We didn't specify th:action of form in createOrUpdateOwnerForm.-->
 <!--Thymeleaf understand action from the handler-->
@@ -31,8 +35,6 @@
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-
-            <!--isNew Property on the Base Entity-->
             <button type="submit" class="btn btn-default"
                     th:with="text=${owner['new']} ? 'Add Owner' : 'Update Owner'"
                     th:text="${text}">Add/Update Owner

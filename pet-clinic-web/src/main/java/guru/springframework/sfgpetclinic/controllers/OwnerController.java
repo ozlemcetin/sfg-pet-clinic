@@ -16,13 +16,14 @@ import java.util.List;
 @Controller
 public class OwnerController {
 
-    private final OwnerService ownerService;
-
     //public as being used in test scenarios
     public static final String VIEWS_OWNER_CONTROLLER_FIND_OWNERS = "owners/findOwners";
     public static final String VIEWS_OWNER_CONTROLLER_OWNERS_LIST = "owners/ownersList";
     public static final String VIEWS_OWNER_CONTROLLER_OWNER_DETAILS = "owners/ownerDetails";
     public static final String VIEWS_OWNER_CONTROLLER_CREATE_OR_UPDATE_OWNER_FORM = "owners/createOrUpdateOwnerForm";
+
+
+    private final OwnerService ownerService;
 
     public OwnerController(OwnerService ownerService) {
         this.ownerService = ownerService;

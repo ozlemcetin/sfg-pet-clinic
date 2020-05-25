@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+
+<body>
+<!--/*@thymesVar id="pet" type="guru.springframework.sfgpetclinic.model.Pet"*/-->
+
+<!--isNew Property on the Base Entity-->
+<h2>
+    <th:block th:if="${pet['new']}">New</th:block>
+    Pet
+</h2>
+
+<!--We didn't specify th:action of form in createOrUpdateOwnerForm.-->
+<!--Thymeleaf understand action from the handler-->
+<!--If @GetMapping("/new") handler returns createOrUpdateOwnerForm to create owner,-->
+<!--  on submission the corresponding POST handler method will get called.-->
+<form th:object="${pet}" method="post"
+      class="form-horizontal" id="add-pet-form">
+
+    <input type="hidden" name="id" th:value="*{id}">
+
+    <div class="form-group has-feedback">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Owner</label>
+            <div class="col-sm-10"><span th:text="${pet.owner?.firstName  + ' ' + pet.owner?.lastName}"></span></div>
+        </div>
+
+        <input
+                th:replace="~{fragments/inputField :: input ('Name', 'name', 'text')}"/>
+        <input
+                th:replace="~{fragments/inputField :: input ('Birth Date', 'birthDate', 'date')}"/>
+        <input
+                th:replace="~{fragments/selectField :: select ('Type', 'petType', ${petTypes})}"/>
+
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+
+            <!--isNew Property on the Base Entity-->
+            <button type="submit" class="btn btn-default"
+                    th:with="text=${pet['new']} ? 'Add Pet' : 'Update Pet'"
+                    th:text="${text}">Add/Update Pet
+            </button>
+        </div>
+    </div>
+
+</form>
+</body>
+</html>

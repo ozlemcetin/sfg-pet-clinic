@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Setter
@@ -43,5 +44,36 @@ public class Owner extends Person {
     /*
      Getters and Setters
      */
+
+    /**
+     * Return the Pet with the given name, or null if none found for this Owner.
+     *
+     * @param name to test
+     * @return true if pet name is already in use
+     */
+    public Pet getPet(String name) {
+        return getPet(name, false);
+    }
+
+    /**
+     * Return the Pet with the given name, or null if none found for this Owner.
+     *
+     * @param name to test
+     * @return true if pet name is already in use
+     */
+    public Pet getPet(String name, boolean ignoreNew) {
+
+        if (name == null)
+            return null;
+
+        final String petName = name.toLowerCase();
+        Optional<Pet> optionalPet =
+                pets.stream().filter(pet -> !ignoreNew || !pet.isNew())
+                        .filter(pet -> pet.getName() != null)
+                        .filter(pet -> petName.equals(pet.getName().toLowerCase()))
+                        .findFirst();
+
+        return optionalPet.isPresent() ? optionalPet.get() : null;
+    }
 
 }

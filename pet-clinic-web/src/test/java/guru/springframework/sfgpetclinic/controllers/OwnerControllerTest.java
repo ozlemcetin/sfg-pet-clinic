@@ -49,7 +49,7 @@ class OwnerControllerTest {
         //when
         mockMvc.perform(MockMvcRequestBuilders.get("/owners/find"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("owners/findOwners"))
+                .andExpect(MockMvcResultMatchers.view().name(OwnerController.VIEWS_OWNER_CONTROLLER_FIND_OWNERS))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("owner"));
 
         //verify
@@ -69,7 +69,7 @@ class OwnerControllerTest {
         //when
         mockMvc.perform(MockMvcRequestBuilders.get("/owners"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("owners/findOwners"))
+                .andExpect(MockMvcResultMatchers.view().name(OwnerController.VIEWS_OWNER_CONTROLLER_FIND_OWNERS))
                 //attributeDoesNotExist
                 .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("ownerListSelections"));
 
@@ -151,13 +151,12 @@ class OwnerControllerTest {
         //when
         mockMvc.perform(MockMvcRequestBuilders.get("/owners"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("owners/ownersList"))
+                .andExpect(MockMvcResultMatchers.view().name(OwnerController.VIEWS_OWNER_CONTROLLER_OWNERS_LIST))
                 //attributeExists
                 .andExpect(MockMvcResultMatchers.model().attributeExists("ownerListSelections"))
                 .andExpect(MockMvcResultMatchers.model().attribute("ownerListSelections",
                         Matchers.hasSize(2)));
 
-        //verify
 
         //verify
         verify(ownerService).findAllByLastNameLike(anyString());
@@ -176,7 +175,7 @@ class OwnerControllerTest {
         //when
         mockMvc.perform(MockMvcRequestBuilders.get("/owners/" + ownerId))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("owners/ownerDetails"))
+                .andExpect(MockMvcResultMatchers.view().name(OwnerController.VIEWS_OWNER_CONTROLLER_OWNER_DETAILS))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("owner"))
                 .andExpect(MockMvcResultMatchers.model().attribute("owner",
                         Matchers.hasProperty("id",
@@ -184,6 +183,83 @@ class OwnerControllerTest {
 
         //verify
         verify(ownerService).findById(anyLong());
+    }
+
+    @Test
+    void initOwnerCreationForm() throws Exception {
+
+        //when
+        mockMvc.perform(MockMvcRequestBuilders.get("/owners/new"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name(OwnerController.VIEWS_OWNER_CONTROLLER_CREATE_OR_UPDATE_OWNER_FORM))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("owner"));
+
+        //verify
+        verifyNoInteractions(ownerService);
+
+    }
+
+    @Test
+    void processOwnerCreationForm() throws Exception {
+
+        //given
+        Long ownerId = 2L;
+        {
+            Owner owner = Owner.builder().id(ownerId).build();
+            when(ownerService.save(any())).thenReturn(owner);
+        }
+
+        //when
+        mockMvc.perform(MockMvcRequestBuilders.post("/owners/new"))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/owners/" + ownerId))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("owner"));
+
+        //verify
+        verify(ownerService).save(any());
+
+    }
+
+    @Test
+    void initOwnerUpdateForm() throws Exception {
+
+        //given
+        Long ownerId = 2L;
+        {
+            Owner owner = Owner.builder().id(ownerId).build();
+            when(ownerService.findById(anyLong())).thenReturn(owner);
+        }
+
+        //when
+        mockMvc.perform(MockMvcRequestBuilders.get("/owners/" + ownerId + "/edit"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name(OwnerController.VIEWS_OWNER_CONTROLLER_CREATE_OR_UPDATE_OWNER_FORM))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("owner"));
+
+        //verify
+        verify(ownerService).findById(anyLong());
+
+    }
+
+    @Test
+    void processOwnerUpdateForm() throws Exception {
+
+        //given
+        Long ownerId = 2L;
+        {
+            Owner owner = Owner.builder().id(ownerId).build();
+            when(ownerService.save(any())).thenReturn(owner);
+        }
+
+        //when
+        mockMvc.perform(MockMvcRequestBuilders.post("/owners/" + ownerId + "/edit"))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/owners/" + ownerId))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("owner"));
+
+        //verify
+        verify(ownerService).save(any());
+
     }
 
 

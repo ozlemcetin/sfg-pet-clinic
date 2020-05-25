@@ -29,4 +29,7 @@ public class BaseEntity implements Serializable {
     Getters and Setters
     */
 
+    public boolean isNew() {
+        return this.id == null;
+    }
 }

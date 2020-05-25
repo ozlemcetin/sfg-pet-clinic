@@ -124,7 +124,7 @@ public class OwnerController {
     @GetMapping("/{ownerId}/edit")
     public String initOwnerUpdateForm(@PathVariable Long ownerId, Model model) {
 
-        model.addAttribute(ownerService.findById(ownerId));
+        model.addAttribute("owner", ownerService.findById(ownerId));
         return VIEWS_OWNER_CONTROLLER_CREATE_OR_UPDATE_OWNER_FORM;
     }
 

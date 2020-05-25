@@ -58,8 +58,6 @@ public class PetController {
 
         Pet pet = new Pet();
         pet.setOwner(owner);
-        owner.getPets().add(pet);
-
         model.addAttribute("pet", pet);
         return VIEWS_PET_CONTROLLER_CREATE_OR_UPDATE_PET_FORM;
     }
@@ -69,13 +67,16 @@ public class PetController {
     public String processPetCreationForm(Owner owner, @Valid Pet pet,
                                          BindingResult bindingResult, Model model) {
 
-        if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null) {
-            bindingResult.rejectValue("name", "duplicate", "Pet already exists!");
+        if (!StringUtils.hasLength(pet.getName())) {
+            bindingResult.rejectValue("name", "empty", "Pet's name cannot be empty!");
+
+        } else {
+            if (pet.isNew() && owner.getPet(pet.getName(), true) != null) {
+                bindingResult.rejectValue("name", "duplicate", "Pet already exists!");
+            }
         }
 
         pet.setOwner(owner);
-        owner.getPets().add(pet);
-
         if (bindingResult.hasErrors()) {
             model.addAttribute("pet", pet);
             return VIEWS_PET_CONTROLLER_CREATE_OR_UPDATE_PET_FORM;
@@ -103,8 +104,6 @@ public class PetController {
                                        BindingResult bindingResult, @PathVariable Long petId, Model model) {
 
         pet.setOwner(owner);
-        owner.getPets().add(pet);
-
         if (bindingResult.hasErrors()) {
             model.addAttribute("pet", pet);
             return VIEWS_PET_CONTROLLER_CREATE_OR_UPDATE_PET_FORM;

@@ -18,12 +18,12 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="owner : ${selections}">
+    <tr th:each="owner : ${ownerListSelections}">
         <td>
             <a class="btn btn-default" href="#" role="button"
                th:href="@{/owners/__${owner.id}__}"
-               th:text="${owner.firstName + ' ' + owner.lastName}"/>
-            Owner First Name Last Name</a>
+               th:text="${owner.firstName + ' ' + owner.lastName}">
+                Owner First Name Last Name</a>
         </td>
         <td th:text="${owner.address}">Address</td>
         <td th:text="${owner.city}">City</td>

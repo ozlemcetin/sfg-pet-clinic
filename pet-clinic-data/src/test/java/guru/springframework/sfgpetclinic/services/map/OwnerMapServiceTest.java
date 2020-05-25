@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -94,6 +95,45 @@ class OwnerMapServiceTest {
         Owner owner = ownerMapService.findByLastName(lastName);
         assertNotNull(owner);
         assertEquals(owner.getLastName(), lastName);
+    }
+
+    @Test
+    void findAllByLastNameLike_NoOwnerFound() {
+
+        String surname = "Cetin";
+        List<Owner> owners = ownerMapService.findAllByLastNameLike(surname);
+
+        assertNotNull(owners);
+        assertEquals(owners.size(), 0);
+    }
+
+    @Test
+    void findAllByLastNameLike_OneOwnerFound() {
+
+
+        List<Owner> owners = ownerMapService.findAllByLastNameLike(lastName);
+        assertNotNull(owners);
+        assertEquals(owners.size(), 1);
+        assertEquals(owners.get(0).getLastName(), lastName);
+    }
+
+    @Test
+    void findAllByLastNameLike_ManyOwnersFound() {
+
+        {
+            Owner owner2 = new Owner();
+            owner2.setFirstName("Fiona");
+            owner2.setLastName(lastName);
+            owner2.setAddress("Ap #867-859 Sit Rd. Azusa New York 39531");
+            owner2.setCity("New York");
+            owner2.setTelephone("(793) 151-6230");
+
+            ownerMapService.save(owner2);
+        }
+
+        List<Owner> owners = ownerMapService.findAllByLastNameLike(lastName);
+        assertNotNull(owners);
+        assertEquals(owners.size(), 2);
     }
 
 

@@ -13,17 +13,24 @@
 <table id="vets" class="table table-striped">
     <thead>
     <tr>
-        <th>Id</th>
-        <th>First Name</th>
-        <th>Last Name</th>
+        <th>Name</th>
+        <th>Specialties</th>
     </tr>
     </thead>
     <tbody>
 
     <tr th:each="vet : ${vets}">
-        <td th:text="${vet.id}">1</td>
-        <td th:text="${vet.firstName}">Joe</td>
-        <td th:text="${vet.lastName}">Buck</td>
+
+        <td th:text="${vet.firstName + ' ' + vet.lastName}">Veterinarians' Name</td>
+        <td>
+            <span th:if="${vet.specialties?.size() == 0}">None</span>
+            <ul  th:if="${vet.specialties?.size() > 0}">
+                <li th:each="specialty : ${vet.specialties}"
+                    th:text="${specialty.description + ' '}"> Specialty
+                </li>
+            </ul>
+
+        </td>
     </tr>
     </tbody>
 </table>

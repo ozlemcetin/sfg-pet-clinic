@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -98,7 +99,9 @@ class PetControllerTest {
         }
 
         //when
-        mockMvc.perform(MockMvcRequestBuilders.post("/owners/" + ownerId + "/pets/new"))
+        mockMvc.perform(MockMvcRequestBuilders.post("/owners/" + ownerId + "/pets/new")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("name", "Hiroko"))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name("redirect:/owners/" + ownerId));
 

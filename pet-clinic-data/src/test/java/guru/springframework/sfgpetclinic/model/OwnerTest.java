@@ -33,12 +33,6 @@ class OwnerTest {
             pet2.setBirthDate(LocalDate.now());
             owner.getPets().add(pet2);
 
-            Pet pet3 = new Pet();
-            pet3.setName(null);
-            pet3.setOwner(owner);
-            pet3.setBirthDate(LocalDate.now());
-            owner.getPets().add(pet3);
-
         }
 
         //service
